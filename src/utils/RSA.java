@@ -1,38 +1,17 @@
-package main;
-
-import utils.RSAUtil;
+package utils;
 
 import java.math.BigInteger;
 
 public class RSA  {
-    // 字符串明文信息
-    private String plainText;
-    /*// 公钥参数
-    private BigInteger publicKeyE;
-    // 私钥参数
-    private BigInteger privateKeyD;*/
-    // 参数生成工具对象
-    private final RSAUtil ru = new RSAUtil();
-
     // 参数初始化生成
     public void initial() {
-        ru.setP();
-        ru.setQ();
-        ru.setN();
-        ru.setFn();
-        ru.setPublicKeyE();
-        ru.setPrivateKeyD();
+        RSAUtil.setP();
+        RSAUtil.setQ();
+        RSAUtil.setN();
+        RSAUtil.setFn();
+        RSAUtil.setPublicKeyE();
+        RSAUtil.setPrivateKeyD();
     }
-
-    // 设置字符串明文
-    public void setPlainText(String plainText) {
-        this.plainText = plainText;
-    }
-    // 获取字符串明文
-    public String getPlainText() {
-        return plainText;
-    }
-
     // 处理字符串明文
     public BigInteger[] dealPlainText(String plainText) {
         BigInteger[] plain = new BigInteger[plainText.length()];
@@ -46,8 +25,8 @@ public class RSA  {
     // 加密明文
     public BigInteger[] encodeStr(String plainText) {
         BigInteger[] plain = dealPlainText(plainText);
-        BigInteger publicKeyE = ru.getPublicKeyE();
-        BigInteger n = ru.getN();
+        BigInteger publicKeyE = RSAUtil.getPublicKeyE();
+        BigInteger n = RSAUtil.getN();
         BigInteger[] cipherText = new BigInteger[plain.length];
         // c = m^e mod n
         for (int i = 0; i < plain.length; i++) {
@@ -67,8 +46,8 @@ public class RSA  {
             }
         }
 
-        for (int i = 0; i < cipherTextString.length; i++) {
-            System.out.print(cipherTextString[i]);
+        for (String s : cipherTextString) {
+            System.out.print(s);
         }
 
         System.out.println("\n");
@@ -76,16 +55,16 @@ public class RSA  {
 
     // 解密密文
     public String decodeStr(BigInteger[] cipherText) {
-        BigInteger privateKeyD = ru.getPrivateKeyD();
-        BigInteger n = ru.getN();
+        BigInteger privateKeyD = RSAUtil.getPrivateKeyD();
+        BigInteger n = RSAUtil.getN();
         BigInteger temp;
-        String message = "";
+        StringBuilder builder = new StringBuilder();
         // m = c^d mod n
-        for (int i = 0; i < cipherText.length; i++) {
-            temp = cipherText[i].pow(privateKeyD.intValue()).mod(n);
-            message = message + (char)temp.intValue();
+        for (BigInteger bigInteger : cipherText) {
+            temp = bigInteger.pow(privateKeyD.intValue()).mod(n);
+            builder.append((char) temp.intValue());
         }
-        return message;
+        return builder.toString();
     }
 
 

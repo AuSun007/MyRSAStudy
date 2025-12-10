@@ -1,4 +1,6 @@
-package main;
+package test;
+
+import utils.RSA;
 
 import java.math.BigInteger;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class MainTest {
         BigInteger[] cipherText = rsa.encodeStr(plainText);
         System.out.println("加密后的密文：");
         rsa.printCipherText(cipherText);
-        System.out.println("\n开始解密...");
+        System.out.println("开始解密...");
         String message = rsa.decodeStr(cipherText);
         System.out.println("解密后的明文：");
         System.out.println(message);
