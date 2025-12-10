@@ -11,7 +11,7 @@ public class PrimeUtil {
     // 素数表，用于存储某个区间内所有的素数，并通过随机下标获得p和q
     private static final int[] primes = new int[count];
 
-    // 生成素数表
+    // 生成素数表primes，从begin开始找count个素数存入primes
     static {
         int index = 0, start = begin;
         boolean prime = true;
@@ -31,7 +31,7 @@ public class PrimeUtil {
         }
     }
 
-    // 随机生成素数
+    // 通过随机下标生成随机素数
     public static BigInteger getRandomPrime() {
         Random random = new Random();
         int index = random.nextInt(primes.length);

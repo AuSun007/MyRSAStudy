@@ -3,76 +3,72 @@ package utils;
 import java.math.BigInteger;
 
 public class RSAUtil {
-    // 随机素数p
-    private static BigInteger p;
-    // 随机素数q
-    private static BigInteger q;
-    // 素数乘积n
-    private static BigInteger n;
-    // 欧拉函数结果
-    private static BigInteger fn;
-    // 公钥参数E
-    private static BigInteger publicKeyE;
-    // 私钥参数D
-    private static BigInteger privateKeyD;
-    // 常用数值
-    private final static BigInteger one = new BigInteger("1");
-    private final static BigInteger two = new BigInteger("2");
-
-
-
-    // 随机生成p
-    public static void setP() {
-        p = PrimeUtil.getRandomPrime();
+    // 参数初始化生成
+    public static void initial() {
+        RSAParameterUtil.setP();
+        RSAParameterUtil.setQ();
+        RSAParameterUtil.setN();
+        RSAParameterUtil.setFn();
+        RSAParameterUtil.setPublicKeyE();
+        RSAParameterUtil.setPrivateKeyD();
     }
-
-    // 随机生成q
-    public static void setQ() {
-
-        q = PrimeUtil.getRandomPrime();
-    }
-
-    // 计算n = p * q
-    public static void setN() {
-        n = p.multiply(q);
-    }
-    // 获取n
-    public static BigInteger getN() {
-        return n;
-    }
-
-    // 计算fn = (p - 1) * (q - 1)
-    public static void setFn() {
-        BigInteger p_1 = p.subtract(one);
-        BigInteger q_1 = q.subtract(one);
-        fn = p_1.multiply(q_1);
-    }
-
-    // 生成公钥参数E
-    public static void setPublicKeyE() {
-        BigInteger e = two;
-
-        while (!e.gcd(fn).equals(one) && e.compareTo(fn) < 0) {
-            e = e.add(one);
+    // 处理字符串明文
+    public static BigInteger[] dealPlainText(String plainText) {
+        BigInteger[] plain = new BigInteger[plainText.length()];
+        // 将字符串的每个字符转换成对应的BigInteger数值
+        for (int i = 0; i < plainText.length(); i++) {
+            plain[i] = BigInteger.valueOf(plainText.charAt(i));
         }
-        publicKeyE = e;
-    }
-    // 获取公钥参数E
-    public static BigInteger getPublicKeyE() {
-        return publicKeyE;
+
+        return plain;
     }
 
-    // 生成私钥参数D
-    public static void setPrivateKeyD() {
-        BigInteger d = two;
-
-        while (!d.multiply(publicKeyE).mod(fn).equals(one) && d.compareTo(fn) < 0) {
-            d = d.add(one);
+    // 加密明文
+    public static BigInteger[] encodeStr(String plainText) {
+        BigInteger[] plain = dealPlainText(plainText);
+        BigInteger publicKeyE = RSAParameterUtil.getPublicKeyE();
+        BigInteger n = RSAParameterUtil.getN();
+        BigInteger[] cipherText = new BigInteger[plain.length];
+        // c = m^e mod n
+        for (int i = 0; i < plain.length; i++) {
+            cipherText[i] = plain[i].pow(publicKeyE.intValue()).mod(n);
         }
-        privateKeyD = d;
+
+        return cipherText;
     }
-    // 获取私钥参数D
-    public static BigInteger getPrivateKeyD() {
-        return privateKeyD;
+
+    // 输出密文
+    public static void printCipherText(BigInteger[] cipherText) {
+        String[] cipherTextString = new String[cipherText.length];
+        for (int i = 0; i < cipherText.length; i++) {
+            // 将每个字符的密文数值转成16进制，并转成字符串类型
+            cipherTextString[i] = cipherText[i].toString(16);
+            while (cipherTextString[i].length() < 6) {
+                // 不足6位则高位补0
+                cipherTextString[i] = "0" + cipherTextString[i];
+            }
+        }
+
+        for (String s : cipherTextString) {
+            System.out.print(s);
+        }
+
+        System.out.println("\n");
     }
+
+    // 解密密文
+    public static String decodeStr(BigInteger[] cipherText) {
+        BigInteger privateKeyD = RSAParameterUtil.getPrivateKeyD();
+        BigInteger n = RSAParameterUtil.getN();
+        BigInteger temp;
+        StringBuilder builder = new StringBuilder();
+        // m = c^d mod n
+        for (BigInteger bigInteger : cipherText) {
+            temp = bigInteger.pow(privateKeyD.intValue()).mod(n);
+            builder.append((char) temp.intValue());
+        }
+        return builder.toString();
+    }
+
+
 }

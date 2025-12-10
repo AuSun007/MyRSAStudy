@@ -1,6 +1,16 @@
-utils:
-  PrimeUtil:素数生成
-  RSAUtil：RSA所需参数生成
-test:
-  RSA：主要加解密过程
-  MainTest：程序入口
+项目结构说明：
+    utils:
+      PrimeUtil:素数生成
+      RSAParameterUtil：RSA所需参数生成
+      RSAUtil：RSA加解密工具
+    test:
+      MainTest：主测试入口
+使用说明：
+    首先调用RSAUtil.initial()初始化RSA参数；
+    加密：
+        输入待加密字符串；
+        调用RSAUtil.encodeStr()加密字符串并返回密文数据
+    查看密文：
+        调用RSAUtil.printCipherText()输出16进制密文数据
+    解密：
+        调用RSAUtil.decodeStr()解密字符串并返回解密结果
