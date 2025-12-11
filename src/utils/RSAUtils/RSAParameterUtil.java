@@ -1,4 +1,6 @@
-package utils;
+package utils.RSAUtils;
+
+import utils.PrimeUtil;
 
 import java.math.BigInteger;
 

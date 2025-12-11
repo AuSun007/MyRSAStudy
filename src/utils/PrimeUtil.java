@@ -1,6 +1,7 @@
 package utils;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class PrimeUtil {
@@ -10,6 +11,9 @@ public class PrimeUtil {
     private final static int count = 100;
     // 素数表，用于存储某个区间内所有的素数，并通过随机下标获得p和q
     private static final int[] primes = new int[count];
+    // 常用数据
+    private static final BigInteger one = BigInteger.valueOf(1);
+    private static final BigInteger two = BigInteger.valueOf(2);
 
     // 生成素数表primes，从begin开始找count个素数存入primes
     static {
@@ -36,5 +40,24 @@ public class PrimeUtil {
         Random random = new Random();
         int index = random.nextInt(primes.length);
         return BigInteger.valueOf(primes[index]);
+    }
+
+    // 计算素数的本原根
+    public static BigInteger getPrimitiveRoot(BigInteger prime) {
+        for (BigInteger i = two; i.compareTo(prime) < 0; i = i.add(one)) {
+            ArrayList<BigInteger> nums = new ArrayList<>();
+            for (BigInteger j = one; j.compareTo(prime) < 0; j = j.add(one)) {
+                BigInteger temp = i.modPow(j, prime);
+                nums.add(temp);
+                if (temp.compareTo(one) == 0) {
+                    break;
+                }
+            }
+            if (nums.size() == prime.subtract(one).intValue()) {
+                return i;
+            }
+        }
+
+        return one;
     }
 }

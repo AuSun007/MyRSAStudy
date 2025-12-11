@@ -1,6 +1,6 @@
 package test;
 
-import utils.RSAUtil;
+import utils.RSAUtils.RSAUtil;
 
 import java.math.BigInteger;
 import java.util.Scanner;
