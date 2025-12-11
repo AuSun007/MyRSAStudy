@@ -3,6 +3,7 @@ package utils.RSAUtils;
 import java.math.BigInteger;
 
 public class RSAUtil {
+    private RSAUtil() {}
     // 参数初始化生成
     public static void initial() {
         RSAParameterUtil.setP();

@@ -15,6 +15,8 @@ public class PrimeUtil {
     private static final BigInteger one = BigInteger.valueOf(1);
     private static final BigInteger two = BigInteger.valueOf(2);
 
+    private PrimeUtil() {}
+
     // 生成素数表primes，从begin开始找count个素数存入primes
     static {
         int index = 0, start = begin;
@@ -53,7 +55,7 @@ public class PrimeUtil {
                     break;
                 }
             }
-            if (nums.size() == prime.subtract(one).intValue()) {
+            if (nums.size() == prime.subtract(one).longValue()) {
                 return i;
             }
         }

@@ -21,7 +21,7 @@ public class RSAParameterUtil {
     private final static BigInteger one = new BigInteger("1");
     private final static BigInteger two = new BigInteger("2");
 
-
+    private RSAParameterUtil() {}
 
     // 随机生成p
     public static void setP() {
@@ -73,8 +73,14 @@ public class RSAParameterUtil {
         }
         privateKeyD = d;
     }
+
     // 获取私钥参数D
     public static BigInteger getPrivateKeyD() {
         return privateKeyD;
+    }
+
+    // 打印公钥
+    public static void printPublicKey() {
+        System.out.println("Public Key: " + "[" + publicKeyE + ", " + n + "]");
     }
 }
