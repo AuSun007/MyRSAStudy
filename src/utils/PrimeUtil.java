@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class PrimeUtil {
     // 素数范围的开始
-    private final static int begin = 1000;
+    private final static int begin = 65535;
     // 素数个数
     private final static int count = 100;
     // 素数表，用于存储某个区间内所有的素数，并通过随机下标获得p和q
